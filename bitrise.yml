@@ -8,8 +8,8 @@ app:
   - BITRISE_SCHEME: BitriseiOSTest
   - BITRISE_EXPORT_METHOD: app-store
 trigger_map:
-- push_branch: '*'
-  workflow: primary
+- push_branch: main
+  workflow: deploy
 - pull_request_source_branch: '*'
   workflow: primary
 workflows:
@@ -37,12 +37,12 @@ workflows:
     steps:
     - activate-ssh-key@4:
         run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
-    - git-clone@6: {}
+    - git-clone@4: {}
     - cache-pull@2: {}
     - script@1:
         title: Do anything with Script step
     - certificate-and-profile-installer@1: {}
-    - xcode-test@3:
+    - xcode-test@2:
         inputs:
         - project_path: $BITRISE_PROJECT_PATH
         - scheme: $BITRISE_SCHEME
